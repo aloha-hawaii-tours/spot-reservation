@@ -195,6 +195,7 @@
     .card{padding:26px 20px;}
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -379,36 +380,42 @@ const $ = id => document.getElementById(id);
   const fmt = new Intl.DateTimeFormat("en-US",{weekday:"short", month:"short", day:"numeric"});
   const today = new Date();
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
-  const chips = [
-    {label:"Today",    sub:fmt.format(today),    value:isoLocal(today)},
-    {label:"Tomorrow", sub:fmt.format(tomorrow), value:isoLocal(tomorrow)}
-  ];
-  const box = $("dateChips");
   const et = nowInET();
-  const todayLocked = et.mins >= toMins(TODAY_LOCK_ET);
-  chips.forEach(c=>{
+  const pastCutoff = et.mins >= toMins(TODAY_LOCK_ET); // 8:15 PM ET
+  const box = $("dateChips");
+
+  function addChip(label, sub, value, locked){
     const el = document.createElement("div");
     el.className = "dchip";
-    el.innerHTML = `<div class="d1">${c.label}</div><div class="d2">${c.sub}</div>`;
-    if(c.label === "Today" && todayLocked){
+    el.innerHTML = `<div class="d1">${label}</div><div class="d2">${sub}</div>`;
+    if(locked){
       el.classList.add("locked");
       el.onclick = ()=>{ $("e-date").textContent = "Today's presentations have ended — please choose Tomorrow."; $("e-date").style.display = "block"; };
-      box.appendChild(el);
-      return;
+    } else {
+      el.onclick = ()=>{
+        document.querySelectorAll(".dchip").forEach(x=>x.classList.remove("sel"));
+        el.classList.add("sel");
+        state.date = value;
+        $("e-date").style.display = "none";
+        // refresh slots if a timezone is already chosen
+        if(state.timezone) $("timezone").dispatchEvent(new Event("change"));
+      };
     }
-    el.onclick = ()=>{
-      document.querySelectorAll(".dchip").forEach(x=>x.classList.remove("sel"));
-      el.classList.add("sel");
-      state.date = c.value;
-      $("e-date").style.display = "none";
-      // refresh slots if a timezone is already chosen
-      if(state.timezone) $("timezone").dispatchEvent(new Event("change"));
-    };
     box.appendChild(el);
-  });
-  if(todayLocked){
-    const t = box.children[1];
-    if(t){ t.classList.add("sel"); state.date = chips[1].value; }
+    return el;
+  }
+
+  if(!pastCutoff){
+    // Before 8:15 PM ET — only Today can be scheduled (past times still gray out)
+    const t = addChip("Today", fmt.format(today), isoLocal(today), false);
+    t.classList.add("sel");
+    state.date = isoLocal(today);
+  } else {
+    // Past 8:15 PM ET — Today is over, Tomorrow appears
+    addChip("Today", fmt.format(today), isoLocal(today), true);
+    const t = addChip("Tomorrow", fmt.format(tomorrow), isoLocal(tomorrow), false);
+    t.classList.add("sel");
+    state.date = isoLocal(tomorrow);
   }
 })();
 
