@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,6 @@
     background-attachment:fixed;
   }
 
-  /* ---- animated background blobs ---- */
   .blob{position:fixed; border-radius:50%; filter:blur(70px); opacity:.5; z-index:0; pointer-events:none;
         animation:drift 18s ease-in-out infinite alternate;}
   .b1{width:420px;height:420px; background:#7de8e4; top:-120px; left:-100px;}
@@ -92,7 +92,6 @@
   .btn.ghost{background:#eef4f5; color:var(--ink); box-shadow:none;}
   .hidden{display:none !important;}
 
-  /* Date chips (Today / Tomorrow) */
   .date-chips{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
   .dchip{
     border:1.5px solid var(--line); border-radius:16px; padding:14px 10px; text-align:center;
@@ -104,7 +103,6 @@
   .dchip .d1{font-family:'Sora',sans-serif; font-size:1rem;}
   .dchip .d2{font-size:.8rem; color:var(--muted); margin-top:3px;}
 
-  /* Time slots */
   .slots{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px;}
   .slot{
     padding:12px 4px; border:1.5px solid var(--line); border-radius:12px; text-align:center;
@@ -130,7 +128,6 @@
   }
   .tz-note{font-size:.8rem; color:var(--muted); margin-top:10px;}
 
-  /* Modals */
   .modal-bg{
     position:fixed; inset:0; background:rgba(10,32,40,.55); backdrop-filter:blur(5px);
     display:flex; align-items:center; justify-content:center; padding:20px; z-index:50;
@@ -163,7 +160,6 @@
   .note-box{background:#f2f8f9; border:1px solid var(--line); border-radius:16px; padding:18px; font-size:.9rem; line-height:1.65;}
   .note-box h4{font-family:'Sora',sans-serif; color:var(--teal-deep); margin-bottom:10px;}
 
-  /* Confirmation */
   .confirm{text-align:center;}
   .check-ring{
     width:76px; height:76px; margin:0 auto 16px; border-radius:50%;
@@ -197,6 +193,7 @@
 </style>
 <base target="_blank">
 </head>
+
 <body>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 
@@ -212,7 +209,9 @@
   <div class="card enter" id="step1">
     <div class="step-label">Step 1 of 2</div>
     <div class="step-title">Your Details</div>
+
     <form id="form1" novalidate>
+
       <label for="firstName">First Name</label>
       <input type="text" id="firstName" autocomplete="given-name">
       <div class="err" id="e-firstName">Please enter your first name.</div>
@@ -234,15 +233,19 @@
       <div class="err" id="e-date">Please choose Today or Tomorrow.</div>
 
       <button type="submit" class="btn">Continue →</button>
+
     </form>
   </div>
 
+
   <!-- ============ STEP 2: TIME ============ -->
   <div class="card hidden" id="step2">
+
     <div class="step-label">Step 2 of 2</div>
     <div class="step-title">Choose Your Time</div>
 
     <label for="timezone">Your Timezone</label>
+
     <select id="timezone">
       <option value="" disabled selected>Select your timezone…</option>
       <option>Eastern</option>
@@ -254,96 +257,272 @@
     </select>
 
     <div id="slotArea" class="hidden">
-      <label style="margin-top:18px;">Available Times <span id="tzEcho" style="font-weight:400;color:var(--muted)"></span></label>
+
+      <label style="margin-top:18px;">
+        Available Times
+        <span id="tzEcho" style="font-weight:400;color:var(--muted)"></span>
+      </label>
+
       <div class="slots" id="slotGrid"></div>
-      <div class="tz-note">All times shown in <b id="tzName"></b> time.</div>
+
+      <div class="tz-note">
+        All times shown in <b id="tzName"></b> time.
+      </div>
+
     </div>
 
-    <button class="btn coral" id="reserveBtn" disabled>Reserve My Spot</button>
+    <button class="btn coral" id="reserveBtn" disabled>
+      Reserve My Spot
+    </button>
+
   </div>
+
 
   <!-- ============ ADD TO CALENDAR POPUP ============ -->
-<div class="modal-bg hidden" id="calModal">
-  <div class="modal" style="text-align:center;">
-    <div class="check-ring" style="background:linear-gradient(135deg,#0e7c86,#00b4b4); box-shadow:0 14px 30px rgba(0,180,180,.4);">
-      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 15l2 2 4-4"/></svg>
-    </div>
-    <h3>Add to Your Calendar?</h3>
-    <p style="color:var(--muted); font-size:.92rem;">Save your session now so you don't miss it.</p>
-    <a class="btn" id="gcalLinkM" target="_blank" rel="noopener" style="text-decoration:none;">＋ Google Calendar</a>
-    <button class="btn ghost" id="icsBtnM" style="margin-top:10px;">Download (.ics)</button>
-    <button class="btn coral" id="calDone" style="margin-top:10px;">Done</button>
-  </div>
-</div>
 
-<!-- ============ CONFIRMATION ============ -->
-  <div class="card hidden confirm" id="step3">
-    <div class="check-ring">
-      <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+  <div class="modal-bg hidden" id="calModal">
+
+    <div class="modal" style="text-align:center;">
+
+      <div class="check-ring"
+        style="background:linear-gradient(135deg,#0e7c86,#00b4b4); box-shadow:0 14px 30px rgba(0,180,180,.4);">
+
+        <svg viewBox="0 0 24 24" width="34" height="34"
+          fill="none" stroke="#fff" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <path d="M9 15l2 2 4-4"/>
+
+        </svg>
+
+      </div>
+
+      <h3>Add to Your Calendar?</h3>
+
+      <p style="color:var(--muted); font-size:.92rem;">
+        Save your session now so you don't miss it.
+      </p>
+
+      <a class="btn" id="gcalLinkM" target="_blank" rel="noopener"
+        style="text-decoration:none;">
+        ＋ Google Calendar
+      </a>
+
+      <button class="btn ghost" id="icsBtnM" style="margin-top:10px;">
+        Download (.ics)
+      </button>
+
+      <button class="btn coral" id="calDone" style="margin-top:10px;">
+        Done
+      </button>
+
     </div>
-    <div class="step-title" style="margin-bottom:4px;">You're Booked!</div>
-    <p style="color:var(--muted); font-size:.93rem;">Your spot is reserved. Here's your session summary:</p>
+
+  </div>
+
+
+  <!-- ============ CONFIRMATION ============ -->
+
+  <div class="card hidden confirm" id="step3">
+
+    <div class="check-ring">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M4 12.5l5 5L20 6.5"/>
+      </svg>
+
+    </div>
+
+    <div class="step-title" style="margin-bottom:4px;">
+      You're Booked!
+    </div>
+
+    <p style="color:var(--muted); font-size:.93rem;">
+      Your spot is reserved. Here's your session summary:
+    </p>
 
     <div class="summary" id="summaryBox"></div>
 
     <div class="zoom-box">
-      <div style="font-size:.8rem; letter-spacing:1.5px; text-transform:uppercase; opacity:.85;">Your Zoom Access</div>
-      <a href="https://live.travelaht.com/aht" target="_blank" rel="noopener">live.travelaht.com/aht</a>
-      <small>We'll also text and email you a copy of this link.</small>
+
+      <div style="font-size:.8rem; letter-spacing:1.5px; text-transform:uppercase; opacity:.85;">
+        Your Zoom Access
+      </div>
+
+      <a href="https://live.travelaht.com/aht" target="_blank" rel="noopener">
+        live.travelaht.com/aht
+      </a>
+
+      <small>
+        We'll also text and email you a copy of this link.
+      </small>
+
     </div>
 
     <div class="cal-row">
-      <a class="btn" id="gcalLink" target="_blank" rel="noopener" style="text-decoration:none;">＋ Add to Google Calendar</a>
-      <button class="btn ghost" id="icsBtn">Download (.ics)</button>
+
+      <a class="btn" id="gcalLink" target="_blank" rel="noopener"
+        style="text-decoration:none;">
+        ＋ Add to Google Calendar
+      </a>
+
+      <button class="btn ghost" id="icsBtn">
+        Download (.ics)
+      </button>
+
     </div>
-    <div class="footnote">Tip: joining from a laptop, desktop or tablet earns you the $100 Rewards voucher on top of your vacation voucher.</div>
+
+    <div class="footnote">
+      Tip: joining from a laptop, desktop or tablet earns you the $100 Rewards voucher on top of your vacation voucher.
+    </div>
+
   </div>
+
 </div>
+
 
 <!-- ============ MODAL 1: SAFETY + DEVICE ============ -->
+
 <div class="modal-bg hidden" id="modal1">
+
   <div class="modal">
+
     <h3>Before You Join — Quick Reminders</h3>
-    <div class="warn">🚗 <b>Our host cannot accept participants who are driving or in a moving vehicle.</b><br>So prior to joining, please make sure you're stationary &amp; with good internet access.</div>
-    <p>We highly recommend watching the presentation on a wide-screen device like laptop, desktop or tablet so you could see the presentation better and more stable. <b>Connecting this way qualifies you to also receive a $100 Rewards voucher on top of your vacation voucher.</b></p>
-    <p style="font-weight:600; margin-bottom:2px;">How would you connect?</p>
+
+    <div class="warn">
+      🚗 <b>Our host cannot accept participants who are driving or in a moving vehicle.</b><br>
+      So prior to joining, please make sure you're stationary &amp; with good internet access.
+    </div>
+
+    <p>
+      We highly recommend watching the presentation on a wide-screen device like laptop,
+      desktop or tablet so you could see the presentation better and more stable.
+      <b>Connecting this way qualifies you to also receive a $100 Rewards voucher on top of your vacation voucher.</b>
+    </p>
+
+    <p style="font-weight:600; margin-bottom:2px;">
+      How would you connect?
+    </p>
 
     <label class="radio-row">
+
       <input type="radio" name="device" value="Laptop/Desktop/Tablet">
-      <span><span class="rt">Laptop, desktop or tablet</span> <span class="voucher-tag">+$100 Rewards voucher</span><br>
-      <span class="rs">Best viewing experience &amp; more stable connection</span></span>
-    </label>
-    <label class="radio-row">
-      <input type="radio" name="device" value="Mobile phone">
-      <span><span class="rt">Mobile phone</span><br>
-      <span class="rs">Please make sure you are stationary with good internet access</span></span>
+
+      <span>
+        <span class="rt">
+          Laptop, desktop or tablet
+        </span>
+
+        <span class="voucher-tag">
+          +$100 Rewards voucher
+        </span>
+
+        <br>
+
+        <span class="rs">
+          Best viewing experience &amp; more stable connection
+        </span>
+
+      </span>
+
     </label>
 
-    <button class="btn" id="modal1Next" disabled>Next</button>
+    <label class="radio-row">
+
+      <input type="radio" name="device" value="Mobile phone">
+
+      <span>
+
+        <span class="rt">
+          Mobile phone
+        </span>
+
+        <br>
+
+        <span class="rs">
+          Please make sure you are stationary with good internet access
+        </span>
+
+      </span>
+
+    </label>
+
+    <button class="btn" id="modal1Next" disabled>
+      Next
+    </button>
+
   </div>
+
 </div>
+
 
 <!-- ============ MODAL 2: QUICK NOTE ============ -->
+
 <div class="modal-bg hidden" id="modal2">
+
   <div class="modal">
+
     <div class="note-box">
+
       <h4>A Quick Note About Check-in</h4>
-      <p>When you join the presentation, you'll be asked to complete a short participant survey. This simply helps us get to know our audience and understand who we're presenting to.</p>
-      <p>Some questions may include your <strong>total household income</strong> and residency/<strong>citizenship</strong>. For household income, please consider the <strong>combined income of everyone in your household, including yourself, your spouse/partner, or other contributing family members</strong> (ideally <span style="background:#ffe27a;color:#0f2a33;font-weight:800;padding:1px 7px;border-radius:5px;">$50,000/year</span>).</p>
-      <p style="margin-bottom:0;">The survey does not affect your ability to join the presentation. Everyone is welcome to attend!</p>
+
+      <p>
+        When you join the presentation, you'll be asked to complete a short participant survey.
+        This simply helps us get to know our audience and understand who we're presenting to.
+      </p>
+
+      <p>
+        Some questions may include your <strong>total household income</strong> and residency/<strong>citizenship</strong>.
+        For household income, please consider the
+        <strong>combined income of everyone in your household, including yourself, your spouse/partner,
+        or other contributing family members</strong>
+        (ideally
+        <span style="background:#ffe27a;color:#0f2a33;font-weight:800;padding:1px 7px;border-radius:5px;">
+          $50,000/year
+        </span>).
+      </p>
+
+      <p style="margin-bottom:0;">
+        The survey does not affect your ability to join the presentation.
+        Everyone is welcome to attend!
+      </p>
+
     </div>
-    <button class="btn coral" id="understandBtn">I Understand</button>
+
+    <button class="btn coral" id="understandBtn">
+      I Understand
+    </button>
+
   </div>
+
 </div>
 
-<script>
-/* ================= CONFIG ================= */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqmKrhQFPi2cdyUdsmN4eiuHy8ndEkpZ9mgde9l6q8JBKI1boQVLHm7bplfPqekB3d3A/exec";
-const ZOOM_URL   = "https://live.travelaht.com/aht";
-const CAL_URL    = "https://aloha-hawaii-tours.github.io/travelpresentation-live/";
-const EVENT_TITLE = "Live Travel Presentation";
 
-/* Time slots are defined in Eastern and auto-converted to the other zones (DST-safe) */
+<script>
+
+/* ================= CONFIG ================= */
+
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzqmKrhQFPi2cdyUdsmN4eiuHy8ndEkpZ9mgde9l6q8JBKI1boQVLHm7bplfPqekB3d3A/exec";
+
+const ZOOM_URL =
+  "https://live.travelaht.com/aht";
+
+const CAL_URL =
+  "https://aloha-hawaii-tours.github.io/travelpresentation-live/";
+
+const EVENT_TITLE =
+  "Live Travel Presentation";
+
+
+/* ============================================================
+   TIMEZONE CONFIGURATION
+   ============================================================ */
+
 const ZONES = {
   "Eastern":  "America/New_York",
   "Pacific":  "America/Los_Angeles",
@@ -352,250 +531,1026 @@ const ZONES = {
   "Hawaii":   "Pacific/Honolulu",
   "Vancouver":"America/Vancouver"
 };
-const SLOT_TIMES_ET = ["14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30"];
-const TODAY_LOCK_ET = "20:15"; // after this Eastern time, "Today" locks and only "Tomorrow" can be picked
 
-const state = { firstName:"", lastName:"", email:"", phone:"", date:"", timezone:"", timeLabel:"", time24:"", device:"" };
 
-/* ---------- helpers ---------- */
+/* ============================================================
+   EASTERN PRESENTATION TIMES
+   ============================================================ */
+
+const SLOT_TIMES_ET = [
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30",
+  "18:00",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
+  "20:30"
+];
+
+const TODAY_LOCK_ET = "20:15";
+
+
+/* ============================================================
+   BOOKING STATE
+
+   IMPORTANT:
+   timeET is explicitly initialized here because the Apps Script
+   reminder system relies on it.
+   ============================================================ */
+
+const state = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  date: "",
+  timezone: "",
+  timeLabel: "",
+  time24: "",
+  timeET: "",
+  device: ""
+};
+
+
+/* ============================================================
+   DATE / TIME HELPERS
+   ============================================================ */
+
 function zonedWallToUtc(dateStr, timeStr, tz){
-  const [y,mo,da] = dateStr.split("-").map(Number);
-  const [h,mi]    = timeStr.split(":").map(Number);
-  const guess = Date.UTC(y, mo-1, da, h, mi);
-  const dtf = new Intl.DateTimeFormat("en-US",{timeZone:tz,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});
-  const parts = {};
-  dtf.formatToParts(new Date(guess)).forEach(p=>{ if(p.type!=="literal") parts[p.type]=p.value; });
-  const asUTC = Date.UTC(+parts.year, +parts.month-1, +parts.day, +parts.hour%24, +parts.minute, +parts.second);
-  return new Date(guess - (asUTC - guess));
-}
-function wallTimeIn(date, tz, hour12){
-  return new Intl.DateTimeFormat("en-US",{timeZone:tz,hour:"numeric",minute:"2-digit",hour12:hour12}).format(date);
-}
-function wallParts24(date, tz){
-  return new Intl.DateTimeFormat("en-US",{timeZone:tz,hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(date);
-}
-function nowInET(){
-  // returns {date:"YYYY-MM-DD", mins: minutes since midnight} for America/New_York right now
-  const d = new Date();
-  const dtf = new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
-  const p = {};
-  dtf.formatToParts(d).forEach(x=>{ if(x.type!=="literal") p[x.type]=x.value; });
-  return { date:`${p.year}-${p.month}-${p.day}`, mins:(+p.hour%24)*60 + (+p.minute) };
-}
-function toMins(t){ const [h,m]=t.split(":").map(Number); return h*60+m; }
-function isoLocal(d){
-  const p = n => String(n).padStart(2,"0");
-  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
-}
-const $ = id => document.getElementById(id);
 
-/* ---------- Today / Tomorrow chips ---------- */
+  const [y,mo,da] = dateStr.split("-").map(Number);
+  const [h,mi] = timeStr.split(":").map(Number);
+
+  const guess = Date.UTC(
+    y,
+    mo - 1,
+    da,
+    h,
+    mi
+  );
+
+  const dtf = new Intl.DateTimeFormat(
+    "en-US",
+    {
+      timeZone:tz,
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit",
+      hourCycle:"h23"
+    }
+  );
+
+  const parts = {};
+
+  dtf.formatToParts(new Date(guess)).forEach(p=>{
+    if(p.type !== "literal"){
+      parts[p.type] = p.value;
+    }
+  });
+
+  const asUTC = Date.UTC(
+    +parts.year,
+    +parts.month - 1,
+    +parts.day,
+    +parts.hour % 24,
+    +parts.minute,
+    +parts.second
+  );
+
+  return new Date(
+    guess - (asUTC - guess)
+  );
+}
+
+
+function wallTimeIn(date, tz, hour12){
+
+  return new Intl.DateTimeFormat(
+    "en-US",
+    {
+      timeZone:tz,
+      hour:"numeric",
+      minute:"2-digit",
+      hour12:hour12
+    }
+  ).format(date);
+
+}
+
+
+function wallParts24(date, tz){
+
+  return new Intl.DateTimeFormat(
+    "en-US",
+    {
+      timeZone:tz,
+      hour:"2-digit",
+      minute:"2-digit",
+      hourCycle:"h23"
+    }
+  ).format(date);
+
+}
+
+
+function nowInET(){
+
+  const d = new Date();
+
+  const dtf = new Intl.DateTimeFormat(
+    "en-US",
+    {
+      timeZone:"America/New_York",
+      year:"numeric",
+      month:"2-digit",
+      day:"2-digit",
+      hour:"2-digit",
+      minute:"2-digit",
+      hourCycle:"h23"
+    }
+  );
+
+  const p = {};
+
+  dtf.formatToParts(d).forEach(x=>{
+    if(x.type !== "literal"){
+      p[x.type] = x.value;
+    }
+  });
+
+  return {
+    date:`${p.year}-${p.month}-${p.day}`,
+    mins:(+p.hour % 24) * 60 + (+p.minute)
+  };
+
+}
+
+
+function toMins(t){
+
+  const [h,m] = t.split(":").map(Number);
+
+  return h * 60 + m;
+
+}
+
+
+function isoLocal(d){
+
+  const p = n =>
+    String(n).padStart(2,"0");
+
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+
+}
+
+
+const $ = id =>
+  document.getElementById(id);
+
+
+/* ============================================================
+   TODAY / TOMORROW CHIPS
+   ============================================================ */
+
 (function buildDateChips(){
-  const fmt = new Intl.DateTimeFormat("en-US",{weekday:"short", month:"short", day:"numeric"});
+
+  const fmt = new Intl.DateTimeFormat(
+    "en-US",
+    {
+      weekday:"short",
+      month:"short",
+      day:"numeric"
+    }
+  );
+
   const today = new Date();
-  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+
+  const tomorrow = new Date();
+
+  tomorrow.setDate(
+    tomorrow.getDate() + 1
+  );
+
   const et = nowInET();
-  const pastCutoff = et.mins >= toMins(TODAY_LOCK_ET); // 8:15 PM ET
+
+  const pastCutoff =
+    et.mins >= toMins(TODAY_LOCK_ET);
+
   const box = $("dateChips");
 
+
   function addChip(label, sub, value, locked){
-    const el = document.createElement("div");
+
+    const el =
+      document.createElement("div");
+
     el.className = "dchip";
-    el.innerHTML = `<div class="d1">${label}</div><div class="d2">${sub}</div>`;
+
+    el.innerHTML =
+      `<div class="d1">${label}</div>
+       <div class="d2">${sub}</div>`;
+
+
     if(locked){
+
       el.classList.add("locked");
-      el.onclick = ()=>{ $("e-date").textContent = "Today's presentations have ended — please choose Tomorrow."; $("e-date").style.display = "block"; };
-    } else {
+
       el.onclick = ()=>{
-        document.querySelectorAll(".dchip").forEach(x=>x.classList.remove("sel"));
-        el.classList.add("sel");
-        state.date = value;
-        $("e-date").style.display = "none";
-        // refresh slots if a timezone is already chosen
-        if(state.timezone) $("timezone").dispatchEvent(new Event("change"));
+
+        $("e-date").textContent =
+          "Today's presentations have ended — please choose Tomorrow.";
+
+        $("e-date").style.display =
+          "block";
+
       };
+
+    } else {
+
+      el.onclick = ()=>{
+
+        document
+          .querySelectorAll(".dchip")
+          .forEach(x =>
+            x.classList.remove("sel")
+          );
+
+        el.classList.add("sel");
+
+        state.date = value;
+
+        $("e-date").style.display =
+          "none";
+
+        if(state.timezone){
+
+          $("timezone")
+            .dispatchEvent(
+              new Event("change")
+            );
+
+        }
+
+      };
+
     }
+
     box.appendChild(el);
+
     return el;
+
   }
+
 
   if(!pastCutoff){
-    // Before 8:15 PM ET — only Today can be scheduled (past times still gray out)
-    const t = addChip("Today", fmt.format(today), isoLocal(today), false);
+
+    const t =
+      addChip(
+        "Today",
+        fmt.format(today),
+        isoLocal(today),
+        false
+      );
+
     t.classList.add("sel");
-    state.date = isoLocal(today);
+
+    state.date =
+      isoLocal(today);
+
   } else {
-    // Past 8:15 PM ET — Today is over, Tomorrow appears
-    addChip("Today", fmt.format(today), isoLocal(today), true);
-    const t = addChip("Tomorrow", fmt.format(tomorrow), isoLocal(tomorrow), false);
+
+    addChip(
+      "Today",
+      fmt.format(today),
+      isoLocal(today),
+      true
+    );
+
+    const t =
+      addChip(
+        "Tomorrow",
+        fmt.format(tomorrow),
+        isoLocal(tomorrow),
+        false
+      );
+
     t.classList.add("sel");
-    state.date = isoLocal(tomorrow);
+
+    state.date =
+      isoLocal(tomorrow);
+
   }
+
 })();
 
-/* ---------- STEP 1 validation ---------- */
-$("form1").addEventListener("submit", e=>{
-  e.preventDefault();
-  let ok = true;
-  const show = (id, bad)=>{ $(id).style.display = bad ? "block" : "none"; if(bad) ok=false; };
-  const first=$("firstName").value.trim(), last=$("lastName").value.trim(),
-        email=$("email").value.trim(), phone=$("phone").value.replace(/\D/g,"");
-  show("e-firstName", !first);
-  show("e-lastName", !last);
-  show("e-email", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-  show("e-phone", phone.length < 7);
-  show("e-date", !state.date);
-  if(!ok) return;
-  Object.assign(state,{firstName:first,lastName:last,email:email,phone:$("phone").value.trim()});
-  swapCards("step1","step2");
-});
 
-function swapCards(fromId, toId){
-  const from = $(fromId), to = $(toId);
+/* ============================================================
+   STEP 1 VALIDATION
+   ============================================================ */
+
+$("form1").addEventListener(
+  "submit",
+  e=>{
+
+    e.preventDefault();
+
+    let ok = true;
+
+
+    const show = (id,bad)=>{
+
+      $(id).style.display =
+        bad ? "block" : "none";
+
+      if(bad){
+        ok = false;
+      }
+
+    };
+
+
+    const first =
+      $("firstName").value.trim();
+
+    const last =
+      $("lastName").value.trim();
+
+    const email =
+      $("email").value.trim();
+
+    const phone =
+      $("phone").value.replace(/\D/g,"");
+
+
+    show(
+      "e-firstName",
+      !first
+    );
+
+    show(
+      "e-lastName",
+      !last
+    );
+
+    show(
+      "e-email",
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    );
+
+    show(
+      "e-phone",
+      phone.length < 7
+    );
+
+    show(
+      "e-date",
+      !state.date
+    );
+
+
+    if(!ok) return;
+
+
+    Object.assign(
+      state,
+      {
+        firstName:first,
+        lastName:last,
+        email:email,
+        phone:$("phone").value.trim()
+      }
+    );
+
+
+    swapCards(
+      "step1",
+      "step2"
+    );
+
+  }
+);
+
+
+/* ============================================================
+   CARD TRANSITION
+   ============================================================ */
+
+function swapCards(fromId,toId){
+
+  const from =
+    $(fromId);
+
+  const to =
+    $(toId);
+
+
   from.classList.add("exit");
+
+
   setTimeout(()=>{
-    from.classList.add("hidden"); from.classList.remove("exit");
-    to.classList.remove("hidden"); to.classList.add("enter");
-    window.scrollTo({top:0,behavior:"smooth"});
-  }, 280);
+
+    from.classList.add("hidden");
+
+    from.classList.remove("exit");
+
+    to.classList.remove("hidden");
+
+    to.classList.add("enter");
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  },280);
+
 }
 
-/* ---------- STEP 2: slots ---------- */
-$("timezone").addEventListener("change", e=>{
-  const tzName = e.target.value;
-  state.timezone = tzName; state.timeLabel=""; state.time24="";
-  $("reserveBtn").disabled = true;
-  const tz = ZONES[tzName];
-  const grid = $("slotGrid"); grid.innerHTML = "";
-  const nowEt = nowInET();
-  const isToday = (state.date === nowEt.date);
-  SLOT_TIMES_ET.forEach((et, i)=>{
-    const d = zonedWallToUtc(state.date, et, "America/New_York");
-    const label = wallTimeIn(d, tz, true);
-    const t24   = wallParts24(d, tz);
-    const el = document.createElement("div");
-    el.className = "slot slot-pop"; el.textContent = label;
-    el.style.animationDelay = (i*0.03)+"s";
-    if(isToday && toMins(et) < nowEt.mins){
-      el.classList.add("past");       // this time has already passed (Eastern) — Today only
-      grid.appendChild(el);
+
+/* ============================================================
+   STEP 2 — TIME SLOTS
+   ============================================================ */
+
+$("timezone").addEventListener(
+  "change",
+  e=>{
+
+    const tzName =
+      e.target.value;
+
+    state.timezone =
+      tzName;
+
+    state.timeLabel =
+      "";
+
+    state.time24 =
+      "";
+
+    state.timeET =
+      "";
+
+    $("reserveBtn").disabled =
+      true;
+
+
+    const tz =
+      ZONES[tzName];
+
+    const grid =
+      $("slotGrid");
+
+    grid.innerHTML =
+      "";
+
+
+    const nowEt =
+      nowInET();
+
+    const isToday =
+      state.date === nowEt.date;
+
+
+    SLOT_TIMES_ET.forEach(
+      (et,i)=>{
+
+        const d =
+          zonedWallToUtc(
+            state.date,
+            et,
+            "America/New_York"
+          );
+
+        const label =
+          wallTimeIn(
+            d,
+            tz,
+            true
+          );
+
+        const t24 =
+          wallParts24(
+            d,
+            tz
+          );
+
+
+        const el =
+          document.createElement("div");
+
+        el.className =
+          "slot slot-pop";
+
+        el.textContent =
+          label;
+
+        el.style.animationDelay =
+          (i * 0.03) + "s";
+
+
+        if(
+          isToday &&
+          toMins(et) < nowEt.mins
+        ){
+
+          el.classList.add("past");
+
+          grid.appendChild(el);
+
+          return;
+
+        }
+
+
+        el.onclick = ()=>{
+
+          document
+            .querySelectorAll(".slot")
+            .forEach(
+              s =>
+                s.classList.remove("sel")
+            );
+
+          el.classList.add("sel");
+
+          state.timeLabel =
+            label;
+
+          state.time24 =
+            t24;
+
+          /*
+           * IMPORTANT:
+           * This is the Eastern Time value that gets
+           * sent to Google Sheets and used by the
+           * Apps Script reminder system.
+           */
+          state.timeET =
+            et;
+
+          $("reserveBtn").disabled =
+            false;
+
+        };
+
+
+        grid.appendChild(el);
+
+      }
+    );
+
+
+    $("tzName").textContent =
+      tzName;
+
+    $("tzEcho").textContent =
+      `(${tzName})`;
+
+    $("slotArea").classList.remove(
+      "hidden"
+    );
+
+  }
+);
+
+
+/* ============================================================
+   RESERVE
+   ============================================================ */
+
+$("reserveBtn").addEventListener(
+  "click",
+  ()=>{
+
+    if(!state.timeLabel){
       return;
     }
-    el.onclick = ()=>{
-      document.querySelectorAll(".slot").forEach(s=>s.classList.remove("sel"));
-      el.classList.add("sel");
-      state.timeLabel = label; state.time24 = t24; state.timeET = et;
-      $("reserveBtn").disabled = false;
-    };
-    grid.appendChild(el);
+
+    saveToSheet();
+
+    $("modal1").classList.remove(
+      "hidden"
+    );
+
+  }
+);
+
+
+/* ============================================================
+   DEVICE SELECTION
+   ============================================================ */
+
+document
+  .querySelectorAll(
+    'input[name="device"]'
+  )
+  .forEach(r=>{
+
+    r.addEventListener(
+      "change",
+      ()=>{
+
+        state.device =
+          r.value;
+
+        $("modal1Next").disabled =
+          false;
+
+      }
+    );
+
   });
-  $("tzName").textContent = tzName;
-  $("tzEcho").textContent = `(${tzName})`;
-  $("slotArea").classList.remove("hidden");
-});
 
-/* ---------- RESERVE: save to sheet, then modal 1 ---------- */
-$("reserveBtn").addEventListener("click", ()=>{
-  if(!state.timeLabel) return;
-  saveToSheet();
-  $("modal1").classList.remove("hidden");
-});
 
-/* ---------- device selection ---------- */
-document.querySelectorAll('input[name="device"]').forEach(r=>{
-  r.addEventListener("change", ()=>{ state.device = r.value; $("modal1Next").disabled = false; });
-});
-$("modal1Next").addEventListener("click", ()=>{
-  $("modal1").classList.add("hidden");
-  $("modal2").classList.remove("hidden");
-});
-$("understandBtn").addEventListener("click", ()=>{
-  $("modal2").classList.add("hidden");
-  const urls = buildCalendarUrls();
-  $("gcalLinkM").href = urls.gcal;
-  $("icsBtnM").onclick = ()=>{
-    const blob = new Blob([urls.ics], {type:"text/calendar"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "travel-presentation.ics";
-    a.click(); URL.revokeObjectURL(a.href);
-  };
-  $("calModal").classList.remove("hidden");
-});
-$("calDone").addEventListener("click", ()=>{
-  $("calModal").classList.add("hidden");
-  showConfirmation();
-});
+$("modal1Next").addEventListener(
+  "click",
+  ()=>{
 
-/* ---------- Google Sheet ---------- */
+    $("modal1").classList.add(
+      "hidden"
+    );
+
+    $("modal2").classList.remove(
+      "hidden"
+    );
+
+  }
+);
+
+
+$("understandBtn").addEventListener(
+  "click",
+  ()=>{
+
+    $("modal2").classList.add(
+      "hidden"
+    );
+
+    const urls =
+      buildCalendarUrls();
+
+
+    $("gcalLinkM").href =
+      urls.gcal;
+
+
+    $("icsBtnM").onclick =
+      ()=>{
+
+        const blob =
+          new Blob(
+            [urls.ics],
+            {type:"text/calendar"}
+          );
+
+        const a =
+          document.createElement("a");
+
+        a.href =
+          URL.createObjectURL(blob);
+
+        a.download =
+          "travel-presentation.ics";
+
+        a.click();
+
+        URL.revokeObjectURL(
+          a.href
+        );
+
+      };
+
+
+    $("calModal").classList.remove(
+      "hidden"
+    );
+
+  }
+);
+
+
+$("calDone").addEventListener(
+  "click",
+  ()=>{
+
+    $("calModal").classList.add(
+      "hidden"
+    );
+
+    showConfirmation();
+
+  }
+);
+
+
+/* ============================================================
+   GOOGLE SHEET
+   ============================================================ */
+
 function saveToSheet(){
+
+  /*
+   * IMPORTANT:
+   * timeET is sent as HH:mm in Eastern Time.
+   *
+   * Example:
+   * 2:00 PM ET -> 14:00
+   * 5:30 PM ET -> 17:30
+   */
+
   const payload = {
-    firstName: state.firstName, lastName: state.lastName, email: state.email,
-    phone: state.phone, date: state.date, timezone: state.timezone,
-    time: state.timeLabel, device: state.device || "(pending)", timeET: state.timeET || ""
+
+    firstName:
+      state.firstName,
+
+    lastName:
+      state.lastName,
+
+    email:
+      state.email,
+
+    phone:
+      state.phone,
+
+    date:
+      state.date,
+
+    timezone:
+      state.timezone,
+
+    time:
+      state.timeLabel,
+
+    device:
+      state.device || "(pending)",
+
+    timeET:
+      state.timeET || ""
+
   };
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(payload)
-  }).catch(()=>{});
+
+
+  fetch(
+    SCRIPT_URL,
+    {
+      method:"POST",
+      mode:"no-cors",
+      headers:{
+        "Content-Type":
+          "application/x-www-form-urlencoded"
+      },
+      body:
+        new URLSearchParams(payload)
+    }
+  ).catch(
+    ()=>{}
+  );
+
 }
 
-/* ---------- Confirmation + calendar ---------- */
-function compact(t24){ return t24.replace(":","") + "00"; }
-function addMinutes(t24, mins){
-  let [h,m] = t24.split(":").map(Number);
-  m += mins; h += Math.floor(m/60); m %= 60;
-  return String(h).padStart(2,"0") + String(m).padStart(2,"0") + "00";
+
+/* ============================================================
+   CALENDAR
+   ============================================================ */
+
+function compact(t24){
+
+  return t24.replace(":","") + "00";
+
 }
-function buildCalendarUrls(){
-  const d = state.date.replace(/-/g,"");
-  const start = d + "T" + compact(state.time24);
-  const end   = d + "T" + addMinutes(state.time24, 30);
-  const details = encodeURIComponent(
-    "Join the live travel presentation here: " + CAL_URL + "\n\n" +
-    "Zoom access: " + ZOOM_URL + "\n\n" +
-    "Please join from a stationary location with good internet access. " +
-    "A laptop, desktop or tablet is recommended — it also qualifies you for a $100 Rewards voucher on top of your vacation voucher."
+
+
+function addMinutes(t24,mins){
+
+  let [h,m] =
+    t24.split(":").map(Number);
+
+  m += mins;
+
+  h +=
+    Math.floor(m / 60);
+
+  m %= 60;
+
+  return (
+    String(h).padStart(2,"0") +
+    String(m).padStart(2,"0") +
+    "00"
   );
-  const gcal = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-    + "&text=" + encodeURIComponent(EVENT_TITLE)
-    + "&dates=" + start + "/" + end
-    + "&details=" + details
-    + "&location=" + encodeURIComponent(ZOOM_URL)
-    + "&ctz=" + encodeURIComponent(ZONES[state.timezone]);
-  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//AHT//Presentation//EN","BEGIN:VEVENT",
-    "UID:" + Date.now() + "@aht",
-    "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g,"").split(".")[0] + "Z",
-    "DTSTART:" + start, "DTEND:" + end,
-    "SUMMARY:" + EVENT_TITLE,
-    "DESCRIPTION:Join here: " + CAL_URL.replace(/,/g,"\\,") + " — Zoom access: " + ZOOM_URL.replace(/,/g,"\\,"),
-    "LOCATION:" + ZOOM_URL, "END:VEVENT","END:VCALENDAR"].join("\r\n");
-  return { gcal, ics };
+
 }
-function showConfirmation(){
-  $("summaryBox").innerHTML =
-    "<b>Name:</b> " + state.firstName + " " + state.lastName + "<br>" +
-    "<b>Email:</b> " + state.email + "<br>" +
-    "<b>Mobile:</b> " + state.phone + "<br>" +
-    "<b>Date:</b> " + state.date + "<br>" +
-    "<b>Time:</b> " + state.timeLabel + " (" + state.timezone + ")<br>" +
-    "<b>Connecting via:</b> " + (state.device || "—");
-  const urls = buildCalendarUrls();
-  $("gcalLink").href = urls.gcal;
-  $("icsBtn").onclick = ()=>{
-    const blob = new Blob([urls.ics], {type:"text/calendar"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "travel-presentation.ics";
-    a.click(); URL.revokeObjectURL(a.href);
+
+
+function buildCalendarUrls(){
+
+  const d =
+    state.date.replace(/-/g,"");
+
+  const start =
+    d + "T" +
+    compact(state.time24);
+
+  const end =
+    d + "T" +
+    addMinutes(
+      state.time24,
+      30
+    );
+
+
+  const details =
+    encodeURIComponent(
+
+      "Join the live travel presentation here: " +
+      CAL_URL +
+      "\n\n" +
+
+      "Zoom access: " +
+      ZOOM_URL +
+      "\n\n" +
+
+      "Please join from a stationary location with good internet access. " +
+      "A laptop, desktop or tablet is recommended — it also qualifies you for a $100 Rewards voucher on top of your vacation voucher."
+
+    );
+
+
+  const gcal =
+    "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+
+    "&text=" +
+    encodeURIComponent(EVENT_TITLE) +
+
+    "&dates=" +
+    start +
+    "/" +
+    end +
+
+    "&details=" +
+    details +
+
+    "&location=" +
+    encodeURIComponent(ZOOM_URL) +
+
+    "&ctz=" +
+    encodeURIComponent(
+      ZONES[state.timezone]
+    );
+
+
+  const ics = [
+
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//AHT//Presentation//EN",
+    "BEGIN:VEVENT",
+
+    "UID:" +
+      Date.now() +
+      "@aht",
+
+    "DTSTAMP:" +
+      new Date()
+        .toISOString()
+        .replace(/[-:]/g,"")
+        .split(".")[0] +
+      "Z",
+
+    "DTSTART:" +
+      start,
+
+    "DTEND:" +
+      end,
+
+    "SUMMARY:" +
+      EVENT_TITLE,
+
+    "DESCRIPTION:Join here: " +
+      CAL_URL.replace(/,/g,"\\,") +
+      " — Zoom access: " +
+      ZOOM_URL.replace(/,/g,"\\,"),
+
+    "LOCATION:" +
+      ZOOM_URL,
+
+    "END:VEVENT",
+    "END:VCALENDAR"
+
+  ].join("\r\n");
+
+
+  return {
+    gcal,
+    ics
   };
-  $("step2").classList.add("hidden");
-  $("step3").classList.remove("hidden");
-  $("step3").classList.add("enter");
-  window.scrollTo({top:0,behavior:"smooth"});
+
 }
+
+
+/* ============================================================
+   CONFIRMATION
+   ============================================================ */
+
+function showConfirmation(){
+
+  $("summaryBox").innerHTML =
+
+    "<b>Name:</b> " +
+    state.firstName +
+    " " +
+    state.lastName +
+    "<br>" +
+
+    "<b>Email:</b> " +
+    state.email +
+    "<br>" +
+
+    "<b>Mobile:</b> " +
+    state.phone +
+    "<br>" +
+
+    "<b>Date:</b> " +
+    state.date +
+    "<br>" +
+
+    "<b>Time:</b> " +
+    state.timeLabel +
+    " (" +
+    state.timezone +
+    ")" +
+    "<br>" +
+
+    "<b>Connecting via:</b> " +
+    (state.device || "—");
+
+
+  const urls =
+    buildCalendarUrls();
+
+
+  $("gcalLink").href =
+    urls.gcal;
+
+
+  $("icsBtn").onclick =
+    ()=>{
+
+      const blob =
+        new Blob(
+          [urls.ics],
+          {type:"text/calendar"}
+        );
+
+      const a =
+        document.createElement("a");
+
+      a.href =
+        URL.createObjectURL(blob);
+
+      a.download =
+        "travel-presentation.ics";
+
+      a.click();
+
+      URL.revokeObjectURL(
+        a.href
+      );
+
+    };
+
+
+  $("step2").classList.add(
+    "hidden"
+  );
+
+  $("step3").classList.remove(
+    "hidden"
+  );
+
+  $("step3").classList.add(
+    "enter"
+  );
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
 </script>
+
 </body>
 </html>
+```
